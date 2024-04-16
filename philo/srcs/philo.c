@@ -1,6 +1,6 @@
 #include "../includes/philo.h"
 
-//Convert seconds and microseconds to milliseconde
+//Convert seconds and microseconds to millisecondes
 long long get_time(void) 
 {
     struct timeval tv;
@@ -20,17 +20,16 @@ int main(int argc, char *argv[])
 		printf("./philo nb_of_philo time_to_die time_to_eat time_to_sleep%s\n", DEFAULT);
         return (1);
     }
-	if (init_philo(&data, argv) == 1)
+	if (initialize(&data, argv) == 1)
 		printf("%sError init philo%s", RED, DEFAULT);
-	init_mutex(&data);
-	actions(&data);
+	init_thread(&data);
 
-    printf("Starting simulation for %d philosophers...\n", data.nb_philo);
+    // printf("Starting simulation for %d philosophers...\n", data.nb_philo);
 
     // Your philosopher simulation logic here...
 
     // Example of displaying the timestamp along with the message
-    printf("%lld 0 1 has taken a fork\n", get_time() / 1000);
+    // printf("%lld 0 1 has taken a fork\n", get_time() / 1000);
     
     return 0;
 }

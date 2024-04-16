@@ -2,68 +2,77 @@
 
 int init_mutex(t_data *data)
 {
-	int i = 0;
-
-	while (i < data->philo)
+	int i;
+	
+	i = data->nb_philo;
+	while (--i >= 0)
 	{
-		if (pthread_mutex_init(&data->forks[i], NULL))
+		if (pthread_mutex_init(&(data->forks[i]), NULL))
 			return (1);
-		i++;
 	}
-	if (pthread_mutex_init(&data->writing, NULL))
+	if (pthread_mutex_init(&data->print, NULL))
 		return (1);
 	if (pthread_mutex_init(&data->meal_check, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->dead_check, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->sleep_check, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->think_check, NULL))
 		return (1);
 	return (0);
 }
 
-void *init_thread(void *data) 
+int init_philo(t_data *data)
 {
-    t_data *d = (t_data *)data;
-    int i;
-    pthread_t threads[NB_MAX];
+	int i;
 
-    i = 0;
-    while (i < d->nb_philo) {
-        if (pthread_create(&threads[i], NULL, philo_eating, (void *)&d->philosopher[i]) != 0)
-            return (void *)1;
-        printf("Thread %d has started\n", i);
-        i++;
-    }
-    i = 0;
-    while (i < d->nb_philo) {
-        if (pthread_join(threads[i], NULL) != 0)
-            return (void *)5;
-        printf("Thread %d has finished execution\n", i);
-        i++;
-    }
-    i = 0;
-    while (i < d->nb_philo) {
-        pthread_mutex_destroy(&d->forks[i]);
-        i++;
-    }
-    pthread_mutex_destroy(&d->meal_check);
-    return NULL;
+	i = data->nb_philo;
+	while (--i >= 0)
+	{
+		data->philo[i].philo = i;
+		data->philo[i].philo_ate = 0;
+		data->philo[i].left_fork = i;
+		data->philo[i].right_fork = (i + 1) % data->nb_philo;
+		data->philo[i].last_meal = 0;
+		data->philo[i].data = data;
+	}
+	return (0);
 }
 
-int	init_philo(t_data *data, char **argv)
+int	initialize(t_data *data, char **argv)
 {
-	// *data = (t_philo){0};
-	
+	data->all_ate = false;
+	data->philo_dead = false;
     data->nb_philo = ft_atoi(argv[1]);
     data->time_to_die = ft_atoi(argv[2]);
     data->time_to_eat = ft_atoi(argv[3]);
     data->time_to_sleep = ft_atoi(argv[4]);
+	data->start_time = get_time();
 
-	data->all_ate = 0;
+	printf("nb philo : %d\n", data->nb_philo);
+	printf("time_to_die : %d\n", data->time_to_die);
+	printf("time_to_eat : %d\n", data->time_to_eat);
+	printf("time_to_sleep : %d\n", data->time_to_sleep);
+	printf("start_time : %lld\n\n", data->start_time);
+
+	if (data->time_to_eat < data->time_to_sleep)
+		data->time_to_think = 0;
+	else
+		data->time_to_think = data->time_to_eat - data->time_to_sleep;
+	data->philo_eat = 0;
+	data->philo_think = 0;
+	data->philo_sleep = 0;
+	
 	// Pour le 5e arg
-	if (argv[5] != '\0')
+	if (argv[5])
 		data->nb_eat = ft_atoi(argv[5]);
 	else
 		data->nb_eat = -1;
-
 	if (data->nb_philo > 250 || data->nb_philo < 0 || data->time_to_die < 0
 		|| data->time_to_eat < 0 || data->time_to_sleep < 0)
+		return (1);
+	if (init_mutex(data) || init_philo(data))
 		return (1);
 	return (0);
 }
