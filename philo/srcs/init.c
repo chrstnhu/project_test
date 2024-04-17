@@ -16,10 +16,10 @@ int init_mutex(t_data *data)
 		return (1);
 	if (pthread_mutex_init(&data->dead_check, NULL))
 		return (1);
-	if (pthread_mutex_init(&data->sleep_check, NULL))
-		return (1);
-	if (pthread_mutex_init(&data->think_check, NULL))
-		return (1);
+	// if (pthread_mutex_init(&data->sleep_check, NULL))
+	// 	return (1);
+	// if (pthread_mutex_init(&data->think_check, NULL))
+	// 	return (1);
 	return (0);
 }
 
