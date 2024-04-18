@@ -4,25 +4,21 @@ int	ft_atoi(const char *nptr)
 {
 	int	i;
 	int	result;
-	int	sign;
 
 	i = 0;
-	sign = 1;
 	result = 0;
 	while ((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == ' ')
 		i++;
-	if (nptr[i] == '+' || nptr[i] == '-')
-	{
-		if (nptr[i] == '-')
-			sign = -sign;
+	if (nptr[i] == '-')
+		return (1);
+	if (nptr[i] == '+')
 		i++;
-	}
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result = result * 10 + (nptr[i] - '0');
 		i++;
 	}
-	return (result * sign);
+	return (result);
 }
 
 void print_status(t_data *data, int philo, const char *status, int dead) 
@@ -53,7 +49,8 @@ int ft_usleep(t_data *data, long long time)
 
 	start = get_time();
 	current = get_time();
-
+	//  Continue the while loop when ./philo 2 800 400 400
+	//	while (!(data->philo_dead)  && (current - start) < time)
 	while (!(data->philo_dead))
 	{
 		current = get_time();
@@ -62,4 +59,22 @@ int ft_usleep(t_data *data, long long time)
 		usleep(100);
 	}
 	return (0);
+}
+
+void thread_wait_destroy(t_data *data, t_philo *philo)
+{
+    int i;
+
+	i = data->nb_philo;
+    while (--i >= 0)
+    {
+        if (pthread_join(philo[i].threads, NULL) != 0)
+            return ;
+    }
+	i = data->nb_philo;
+    while (--i >= 0)
+        pthread_mutex_destroy(&data->forks[i]);
+    pthread_mutex_destroy(&data->print);
+	pthread_mutex_destroy(&data->dead_check);
+	pthread_mutex_destroy(&data->meal_check);
 }

@@ -45,32 +45,21 @@ int	initialize(t_data *data, char **argv)
     data->time_to_die = ft_atoi(argv[2]);
     data->time_to_eat = ft_atoi(argv[3]);
     data->time_to_sleep = ft_atoi(argv[4]);
-	data->start_time = get_time();
-
-	// printf("nb philo : %d\n", data->nb_philo);
-	// printf("time_to_die : %d\n", data->time_to_die);
-	// printf("time_to_eat : %d\n", data->time_to_eat);
-	// printf("time_to_sleep : %d\n", data->time_to_sleep);
-	// printf("start_time : %lld\n\n", data->start_time);
-
-	if (data->time_to_eat < data->time_to_sleep)
-		data->time_to_think = 0;
-	else
+	data->time_to_think = 0;
+	if (data->time_to_eat > data->time_to_sleep)
 		data->time_to_think = data->time_to_eat - data->time_to_sleep;
-	data->philo_eat = 0;
-	data->philo_think = 0;
-	data->philo_sleep = 0;
-	
-	// Pour le 5e arg
+	data->start_time = get_time();
+	data->nb_eat = -1;
 	if (argv[5])
 		data->nb_eat = ft_atoi(argv[5]);
-	else
-		data->nb_eat = -1;
-
 	if (data->nb_philo > 250 || data->nb_philo < 0 || data->time_to_die < 0
 		|| data->time_to_eat < 0 || data->time_to_sleep < 0)
 		return (1);
-	if (init_mutex(data) || init_philo(data))
-		return (1);
+	if (data->nb_philo != 1)
+	{
+		if (init_mutex(data))
+			return (1);
+	}
+	init_philo(data);
 	return (0);
 }

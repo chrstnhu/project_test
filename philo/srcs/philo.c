@@ -18,7 +18,10 @@ int main(int argc, char *argv[])
 	{
 		if (initialize(&data, argv) == 1)
 			printf("%sError init philo%s", RED, DEFAULT);
-		init_thread(&data);
+		if (data.nb_philo == 1)
+			handle_one_philo(&data);
+		else
+			init_thread(&data);
 	}
 	else
 	{

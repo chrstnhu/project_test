@@ -1,10 +1,10 @@
 SRCS_PATH = srcs
 
-SRCS = $(addprefix $(SRCS_PATH)/, action.c init.c philo.c utils.c)
+SRCS = $(addprefix $(SRCS_PATH)/, action.c init.c philo.c utils.c one_philo.c)
 
 OBJS = $(SRCS:.c=.o)
 
-CC = cc
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 
 NAME = philo

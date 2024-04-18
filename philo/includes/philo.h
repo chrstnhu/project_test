@@ -76,6 +76,8 @@ void print_status(t_data *data, int philo, const char *status, int dead);
 void	philo_sleeping(t_data *data, t_philo *philo);
 void check_dead(t_data *data, t_philo *philo);
 int ft_usleep(t_data *data, long long time);
+void handle_one_philo(t_data *data);
+void thread_wait_destroy(t_data *data, t_philo *philo);
 
 
 #endif
