@@ -72,9 +72,10 @@ int init_philo(t_data *data);
 int	initialize(t_data *data, char **argv);
 
 long long get_time(void);
-void print_status(t_data *data, int philo, const char *status) ;
+void print_status(t_data *data, int philo, const char *status, int dead);
 void	philo_sleeping(t_data *data, t_philo *philo);
 void check_dead(t_data *data, t_philo *philo);
+int ft_usleep(t_data *data, long long time);
 
 
 #endif

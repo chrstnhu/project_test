@@ -25,15 +25,41 @@ int	ft_atoi(const char *nptr)
 	return (result * sign);
 }
 
-void print_status(t_data *data, int philo, const char *status) 
+void print_status(t_data *data, int philo, const char *status, int dead) 
 {
     long long current_time;
 	
 	current_time = get_time();
 	
 	pthread_mutex_lock(&(data->print));
-    printf("%lld %d ", current_time - data->start_time, philo + 1);
-	printf("%s\n", status);
+	if (!(data->philo_dead))
+	{
+    	printf("%lld %d ", current_time - data->start_time, philo + 1);
+		printf("%s\n", status);
+	}
+	else if (dead == 1)
+	{
+		printf("%lld %d ", current_time - data->start_time, philo + 1);
+		printf("%s\n", status);
+	}
 	pthread_mutex_unlock(&(data->print));
 	return ;
+}
+
+int ft_usleep(t_data *data, long long time)
+{
+	long long start;
+	long long current;
+
+	start = get_time();
+	current = get_time();
+
+	while (!(data->philo_dead))
+	{
+		current = get_time();
+		if ((current - start) > time)
+			break;
+		usleep(100);
+	}
+	return (0);
 }
