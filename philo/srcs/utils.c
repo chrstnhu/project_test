@@ -1,5 +1,19 @@
 #include "../includes/philo.h"
 
+int check_number(int argc, char **argv)
+{
+	int i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (ft_atoi(argv[i]) >= 1 && ft_atoi(argv[i]) <= 2147483647)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int	ft_atoi(const char *nptr)
 {
 	int	i;

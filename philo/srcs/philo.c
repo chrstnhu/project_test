@@ -16,8 +16,11 @@ int main(int argc, char *argv[])
 
 	if (argc == 5 || argc == 6)
 	{
-		if (initialize(&data, argv) == 1)
+		if ((check_number(argc,argv) == 1) || (initialize(&data, argv) == 1))
+		{
 			printf("%sError init philo%s", RED, DEFAULT);
+			return (1);
+		}
 		if (data.nb_philo == 1)
 			handle_one_philo(&data);
 		else
