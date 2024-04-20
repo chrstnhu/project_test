@@ -10,7 +10,10 @@ void	philo_eating(t_data *data, t_philo *philo)
 	print_status(data, philo->philo, "has taken a fork", 0);
 	pthread_mutex_lock(&data->meal_check);
 	print_status(data, philo->philo, "is eating", 0);
+	pthread_mutex_unlock(&data->lastmeal_check);
 	philo->last_meal = get_time();
+	pthread_mutex_unlock(&data->lastmeal_check);
+	
 	pthread_mutex_unlock(&data->meal_check);
 	philo->philo_ate++;
 	ft_usleep(data, data->time_to_eat);
@@ -22,11 +25,11 @@ void	philo_sleeping(t_data *data, t_philo *philo)
 {
 	print_status(data, philo->philo, "is sleeping", 0);
 	ft_usleep(data, data->time_to_sleep);
-	if (data->time_to_think != 0)
-	{
+	// if (data->time_to_think != 0)
+	// {
 		print_status(data, philo->philo, "is thinking", 0);
-		ft_usleep(data, data->time_to_think);
-	}
+	// 	ft_usleep(data, data->time_to_think);
+	// }
 }
 
 void *action(void *philosopher)
@@ -69,14 +72,20 @@ void check_dead(t_data *data, t_philo *philo)
                 break;
             }
             pthread_mutex_unlock(&data->dead_check);
+			// usleep(100);
         }
         if (data->philo_dead)
             break;
         i = 0;
         while (data->nb_eat != -1 && i < data->nb_philo && philo[i].philo_ate >= data->nb_eat)
             i++;
+		// if (data->nb_philo == i)
+        //     data->all_ate = true;
+		// add
+		pthread_mutex_lock(&data->eat_check);
 		if (data->nb_philo == i)
             data->all_ate = true;
+		pthread_mutex_unlock(&data->eat_check);
     }
 }
 
