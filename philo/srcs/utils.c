@@ -7,11 +7,20 @@ int check_number(int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
-		if (ft_atoi(argv[i]) >= 1 && ft_atoi(argv[i]) <= 2147483647)
-			return (0);
+		if (ft_atoi(argv[i]) > 2147483647 || ft_atoi(argv[i]) < 1)
+			return (1);
 		i++;
 	}
-	return (1);
+	i = 1;
+	while (i < argc)
+	{
+		if (ft_atoi(argv[i]) < 1)
+			return (1);
+		i++;
+	}
+	if (ft_atoi(argv[1]) > 0)
+		return (0);
+	return (0);
 }
 
 int	ft_atoi(const char *nptr)
@@ -24,7 +33,7 @@ int	ft_atoi(const char *nptr)
 	while ((nptr[i] > 8 && nptr[i] < 14) || nptr[i] == ' ')
 		i++;
 	if (nptr[i] == '-')
-		return (1);
+		return (-1);
 	if (nptr[i] == '+')
 		i++;
 	while (nptr[i] >= '0' && nptr[i] <= '9')
