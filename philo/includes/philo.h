@@ -56,6 +56,9 @@ typedef struct s_data
 	pthread_mutex_t forks[NB_MAX];
 	pthread_mutex_t	dead_check;
 	pthread_mutex_t meal_check;
+	//add
+	pthread_mutex_t eat_check;
+	pthread_mutex_t lastmeal_check;
 	// pthread_mutex_t sleep_check;
 	// pthread_mutex_t think_check;
 	pthread_mutex_t print;

@@ -16,6 +16,11 @@ int init_mutex(t_data *data)
 		return (1);
 	if (pthread_mutex_init(&data->dead_check, NULL))
 		return (1);
+	//add
+	if (pthread_mutex_init(&data->eat_check, NULL))
+		return (1);
+	if (pthread_mutex_init(&data->lastmeal_check, NULL))
+		return (1);
 	return (0);
 }
 
@@ -45,9 +50,9 @@ int	initialize(t_data *data, char **argv)
     data->time_to_die = ft_atoi(argv[2]);
     data->time_to_eat = ft_atoi(argv[3]);
     data->time_to_sleep = ft_atoi(argv[4]);
-	data->time_to_think = 0;
-	if (data->time_to_eat > data->time_to_sleep)
-		data->time_to_think = data->time_to_eat - data->time_to_sleep;
+	// data->time_to_think = 0;
+	// if (data->time_to_eat > data->time_to_sleep)
+	// 	data->time_to_think = data->time_to_eat - data->time_to_sleep;
 	data->start_time = get_time();
 	data->nb_eat = -1;
 	if (argv[5])

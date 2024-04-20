@@ -73,7 +73,7 @@ int ft_usleep(t_data *data, long long time)
 	start = get_time();
 	current = get_time();
 	//  Continue the while loop when ./philo 2 800 400 400
-	//	while (!(data->philo_dead)  && (current - start) < time)
+	//	while (!(data->philo_dead )  && (current - start) < time)
 	while (!(data->philo_dead))
 	{
 		current = get_time();
@@ -100,4 +100,7 @@ void thread_wait_destroy(t_data *data, t_philo *philo)
     pthread_mutex_destroy(&data->print);
 	pthread_mutex_destroy(&data->dead_check);
 	pthread_mutex_destroy(&data->meal_check);
+	//add
+	pthread_mutex_destroy(&data->eat_check);
+	pthread_mutex_destroy(&data->lastmeal_check);
 }
