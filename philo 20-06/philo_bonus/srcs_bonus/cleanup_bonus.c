@@ -63,8 +63,8 @@ void	sem_close_all(t_data *data)
 void	exit_dead(t_data *data, t_philo *philo)
 {
 	//(void)philo;
-	print_status(data, philo->philo, "died", 1);
 	sem_post(data->death_print);
+	print_status(data, philo->philo, "died", 1);
 	//print_status(data, philo->philo, "died", 1);
 	sem_post(data->death_declared);
 	sem_post(data->sem_stop);

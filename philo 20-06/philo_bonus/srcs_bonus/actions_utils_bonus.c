@@ -62,8 +62,7 @@ void	print_status(t_data *data, int philo, const char *status, int dead)
 {
 	long long	current_time;
 
-	if (dead == 0)
-		sem_wait(data->print);
+	sem_wait(data->print);
 	current_time = get_time();
 	if (dead == 1 && is_philo_dead(data))
 	{
@@ -75,8 +74,7 @@ void	print_status(t_data *data, int philo, const char *status, int dead)
 		printf("%lld %d %s\n", current_time - data->start_time,
 			philo + 1, status);
 	}
-	if (dead == 0)
-		sem_post(data->print);
+	sem_post(data->print);
 }
 
 

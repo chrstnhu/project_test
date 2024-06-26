@@ -38,7 +38,7 @@ void	*check_dead(void *philosopher)
 				if (!data->death_printed)
 				{
 					data->death_printed = 1;
-					//sem_post(data->death_print);
+					sem_post(data->death_print);
 					//print_status(data, philo->philo, "died", 1);
 					return (NULL);
 				}
@@ -98,7 +98,7 @@ int	is_time_exceed(t_data *data, t_philo *philo, long long current_time, int sta
 		return (1);
 	
 	sem_wait(data->lastmeal_check);
-	if (data->nb_philo % 2 == 1)
+	//if (data->nb_philo % 2 == 1)
 		current_time_think = current_time - philo->last_meal
 			+ data->time_to_think;
 	//else
@@ -108,7 +108,7 @@ int	is_time_exceed(t_data *data, t_philo *philo, long long current_time, int sta
 
 	if (status == 2 && data->time_to_think != -1
 		&& current_time_think > data->time_to_die
-			+ (0.1 * data->nb_philo))
+			+ (0.2 * data->nb_philo))
 		return (1);
 	return (0);
 }
